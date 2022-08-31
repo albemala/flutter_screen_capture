@@ -23,7 +23,7 @@ class CapturedScreenArea {
 
   factory CapturedScreenArea.fromJson(Map<Object?, Object?> json) {
     return CapturedScreenArea(
-      buffer: json['buffer'] as Uint8List,
+      buffer: Uint8List.fromList((json['buffer'] as List<Object?>).cast<int>()),
       width: json['width'] as int,
       height: json['height'] as int,
       bitsPerPixel: json['bitsPerPixel'] as int,
@@ -33,7 +33,7 @@ class CapturedScreenArea {
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'buffer': buffer,
+      'buffer': buffer.toList(),
       'width': width,
       'height': height,
       'bitsPerPixel': bitsPerPixel,
@@ -46,8 +46,6 @@ class CapturedScreenArea {
       width,
       height,
       buffer,
-      format: image_lib.Format.bgra,
-      channels: image_lib.Channels.rgba,
     );
   }
 
@@ -60,11 +58,27 @@ class CapturedScreenArea {
       throw RangeError('Pixel coordinates out of range');
     }
     final index = ((y * width + x) * bytesPerPixel).toInt();
-    final b = buffer[index];
+    final r = buffer[index];
     final g = buffer[index + 1];
-    final r = buffer[index + 2];
+    final b = buffer[index + 2];
     final a = buffer[index + 3];
     return Color.fromARGB(a, r, g, b);
+  }
+
+  CapturedScreenArea copyWith({
+    Uint8List? buffer,
+    int? width,
+    int? height,
+    int? bitsPerPixel,
+    int? bytesPerPixel,
+  }) {
+    return CapturedScreenArea(
+      buffer: buffer ?? this.buffer,
+      width: width ?? this.width,
+      height: height ?? this.height,
+      bitsPerPixel: bitsPerPixel ?? this.bitsPerPixel,
+      bytesPerPixel: bytesPerPixel ?? this.bytesPerPixel,
+    );
   }
 
   @override

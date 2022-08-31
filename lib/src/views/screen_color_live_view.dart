@@ -3,6 +3,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screen_capture/src/screen_capture.dart';
 import 'package:screen_retriever/screen_retriever.dart';
 
+/// A widget that displays the color of the screen pixel at the cursor position.
+/// The color is updated every frame.
+///
+/// Notes:
+/// - Make sure to wrap it into a [SizedBox] to give it a size.
 class ScreenColorLiveView extends StatefulWidget {
   const ScreenColorLiveView({
     super.key,

@@ -4,13 +4,19 @@ import 'package:flutter_screen_capture/src/captured_screen_area.dart';
 import 'package:flutter_screen_capture/src/screen_capture.dart';
 import 'package:screen_retriever/screen_retriever.dart';
 
+/// A widget that displays the screen area at the cursor position.
+/// The area is updated every frame.
+///
+/// Notes:
+/// - Make sure to wrap it into a [SizedBox] to give it a size.
 class ScreenAreaLiveView extends StatefulWidget {
+  /// The size of the captured area in pixels.
   final double areaSize;
 
   const ScreenAreaLiveView({
     super.key,
     required this.areaSize,
-  });
+  }) : assert(areaSize > 0, 'areaSize must be greater than 0');
 
   @override
   _ScreenAreaLiveViewState createState() => _ScreenAreaLiveViewState();

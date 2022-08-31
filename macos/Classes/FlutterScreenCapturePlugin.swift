@@ -2,7 +2,7 @@ import Cocoa
 import FlutterMacOS
 
 struct CapturedScreenArea {
-    let buffer: Data
+    let buffer: [UInt8]
     let width: Int
     let height: Int
     let bitsPerPixel: Int
@@ -47,14 +47,26 @@ func captureScreenArea(
     guard let imageData = image.dataProvider?.data else {
         return nil
     }
-    guard let buffer = CFDataGetBytePtr(imageData) else {
+    guard let imageDataPtr = CFDataGetBytePtr(imageData) else {
         return nil
     }
+    let buffer = UnsafeBufferPointer<UInt8>(
+        start: imageDataPtr,
+        count: CFDataGetLength(imageData)
+    )
+    // buffer is an array of bytes, where each 4 bytes represents a color with channels BGRA
+    // transform the buffer into an array of colors with channels RGBA
+    let correctedBuffer = buffer.enumerated().map { (index, byte) -> UInt8 in
+        if index % 4 == 0 {
+            return buffer[index + 2]
+        } else if index % 4 == 2 {
+            return buffer[index - 2]
+        } else {
+            return byte
+        }
+    }
     return CapturedScreenArea(
-        buffer: Data(
-            bytes: buffer,
-            count: CFDataGetLength(imageData)
-        ),
+        buffer: correctedBuffer,
         width: width,
         height: height,
         bitsPerPixel: image.bitsPerPixel,
