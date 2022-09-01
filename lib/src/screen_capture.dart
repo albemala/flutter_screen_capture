@@ -53,24 +53,34 @@ Future<CapturedScreenArea> _sanitizeCapturedArea(
   final displayRect = Offset.zero & primaryDisplay.size;
   final intersectionRect = rect.intersect(displayRect);
   if (intersectionRect == rect) {
-    // no need to sanitize
+    // No need to sanitize
     return area;
   }
 
+  // The intersection area (between the primary display area
+  // and the requested area) is smaller than the requested area.
+  // Usually this happens when requesting an area close to the screen border.
+  // We need to fill the captured area with black pixels,
+  // where the pixels are outside the requested area.
+
+  // Resize the captured area to its actual size
   final correctedArea = area.copyWith(
     width: intersectionRect.width.toInt(),
     height: intersectionRect.height.toInt(),
   );
+  // Create a black image of the size of the requested area
   final emptyImage = image_lib.Image.rgb(
     rect.width.toInt(),
     rect.height.toInt(),
   )..fill(const Color(0xFF000000).value);
+  // Draw the captured image on top of the black image
   final correctedImage = image_lib.drawImage(
     emptyImage,
     correctedArea.toImage(),
     dstX: (intersectionRect.left - rect.left).toInt(),
     dstY: (intersectionRect.top - rect.top).toInt(),
   );
+  // Return the captured area with corrected image and size
   return correctedArea.copyWith(
     buffer: correctedImage.getBytes(),
     width: rect.width.toInt(),
