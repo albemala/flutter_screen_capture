@@ -4,9 +4,9 @@
 
 #include "flutter_screen_capture_plugin.h"
 
-void FlutterScreenCapturePluginCApiRegisterWithRegistrar(
-    FlutterDesktopPluginRegistrarRef registrar) {
-  flutter_screen_capture::FlutterScreenCapturePlugin::RegisterWithRegistrar(
-      flutter::PluginRegistrarManager::GetInstance()
-          ->GetRegistrar<flutter::PluginRegistrarWindows>(registrar));
+void FlutterScreenCapturePluginCApiRegisterWithRegistrar(FlutterDesktopPluginRegistrarRef registrar)
+{
+    flutter_screen_capture::FlutterScreenCapturePlugin::RegisterWithRegistrar(
+            flutter::PluginRegistrarManager::GetInstance()->GetRegistrar<flutter::PluginRegistrarWindows>(registrar)
+    );
 }
