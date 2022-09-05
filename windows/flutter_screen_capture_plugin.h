@@ -16,8 +16,6 @@ struct CapturedScreenArea {
   int height;
   int bitsPerPixel;
   int bytesPerPixel;
-
-  flutter::EncodableMap asMap();
 };
 
 class FlutterScreenCapturePlugin : public flutter::Plugin {
@@ -35,15 +33,15 @@ public:
 private:
     // Called when a method is called on this plugin's channel from Dart.
     static void HandleMethodCall(
-            const flutter::MethodCall<flutter::EncodableValue>& method_call,
-            std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result
+        const flutter::MethodCall<flutter::EncodableValue>& method_call,
+        std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result
     );
 
     static CapturedScreenArea CaptureScreenArea(
-            int x,
-            int y,
-            int width,
-            int height
+        int x,
+        int y,
+        int width,
+        int height
     );
 };
 

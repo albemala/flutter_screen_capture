@@ -12,17 +12,6 @@
 
 namespace flutter_screen_capture {
 
-flutter::EncodableMap CapturedScreenArea::asMap()
-{
-    flutter::EncodableMap dict;
-    dict[flutter::EncodableValue("buffer")] = flutter::EncodableValue(buffer);
-    dict[flutter::EncodableValue("width")] = flutter::EncodableValue(width);
-    dict[flutter::EncodableValue("height")] = flutter::EncodableValue(height);
-    dict[flutter::EncodableValue("bitsPerPixel")] = flutter::EncodableValue(bitsPerPixel);
-    dict[flutter::EncodableValue("bytesPerPixel")] = flutter::EncodableValue(bytesPerPixel);
-    return dict;
-}
-
 // static
 void FlutterScreenCapturePlugin::RegisterWithRegistrar(
         flutter::PluginRegistrarWindows* registrar)
@@ -61,7 +50,13 @@ void FlutterScreenCapturePlugin::HandleMethodCall(
 
         auto capturedScreenArea = CaptureScreenArea(x, y, width, height);
 
-        result->Success(capturedScreenArea.asMap());
+        flutter::EncodableMap dict;
+        dict[flutter::EncodableValue("buffer")] = flutter::EncodableValue(capturedScreenArea.buffer);
+        dict[flutter::EncodableValue("width")] = flutter::EncodableValue(capturedScreenArea.width);
+        dict[flutter::EncodableValue("height")] = flutter::EncodableValue(capturedScreenArea.height);
+        dict[flutter::EncodableValue("bitsPerPixel")] = flutter::EncodableValue(capturedScreenArea.bitsPerPixel);
+        dict[flutter::EncodableValue("bytesPerPixel")] = flutter::EncodableValue(capturedScreenArea.bytesPerPixel);
+        result->Success(dict);
     }
     else {
         result->NotImplemented();
@@ -74,11 +69,15 @@ CapturedScreenArea FlutterScreenCapturePlugin::CaptureScreenArea(
         int width,
         int height)
 {
-    // Get entire screen
+    // Get the device context of the screen
     HDC screen = GetDC(nullptr);
+    // Create a device context to use
     HDC screenMem = CreateCompatibleDC(screen);
+    // Create a bitmap compatible with the screen device context
     HBITMAP dib = CreateCompatibleBitmap(screen, width, height);
+    // Select the bitmap into the device context
     SelectObject(screenMem, dib);
+    // Copy the bits from the screen device context into the bitmap device context
     BitBlt(screenMem, 0, 0, width, height, screen, x, y, SRCCOPY);
 
     BITMAPINFO bi;
@@ -95,12 +94,13 @@ CapturedScreenArea FlutterScreenCapturePlugin::CaptureScreenArea(
     bi.bmiHeader.biClrImportant = 0;
 
     CapturedScreenArea capturedScreenArea;
+    capturedScreenArea.buffer = std::vector<uint8_t>(4*width*height);
     capturedScreenArea.width = width;
     capturedScreenArea.height = height;
     capturedScreenArea.bitsPerPixel = 32;
     capturedScreenArea.bytesPerPixel = 4;
-    capturedScreenArea.buffer = std::vector<uint8_t>(4*width*height);
 
+    // Get the bitmap bits
     GetDIBits(screenMem, dib, 0, height, capturedScreenArea.buffer.data(), &bi, DIB_RGB_COLORS);
 
     ReleaseDC(nullptr, screen);

@@ -58,9 +58,9 @@ class CapturedScreenArea {
       throw RangeError('Pixel coordinates out of range');
     }
     final index = ((y * width + x) * bytesPerPixel).toInt();
-    final r = buffer[index];
+    final b = buffer[index];
     final g = buffer[index + 1];
-    final b = buffer[index + 2];
+    final r = buffer[index + 2];
     final a = buffer[index + 3];
     return Color.fromARGB(a, r, g, b);
   }
