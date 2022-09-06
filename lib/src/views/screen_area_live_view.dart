@@ -73,13 +73,13 @@ class CapturedScreenAreaPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final pixelWidth = size.width / area.width;
     final pixelHeight = size.height / area.height;
-    for (var y = 0; y < area.height; y++) {
-      for (var x = 0; x < area.width; x++) {
-        final color = area.getPixelColor(x.toDouble(), y.toDouble());
+    for (var row = 0; row < area.height; row++) {
+      for (var column = 0; column < area.width; column++) {
+        final color = area.getPixelColor(column.toDouble(), row.toDouble());
         canvas.drawRect(
           Rect.fromLTWH(
-            x * pixelWidth,
-            y * pixelHeight,
+            column * pixelWidth,
+            row * pixelHeight,
             pixelWidth,
             pixelHeight,
           ),

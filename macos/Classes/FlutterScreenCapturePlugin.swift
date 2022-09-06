@@ -1,22 +1,44 @@
 import Cocoa
 import FlutterMacOS
 
+func resize(
+    image: CGImage,
+    ratio: Float
+) -> CGImage? {
+    let newWidth = Int(Float(image.width) / ratio)
+    let newHeight = Int(Float(image.height) / ratio)
+    let bitsPerComponent = image.bitsPerComponent // 8
+    let bytesPerPixel = image.bitsPerPixel / bitsPerComponent
+    let bytesPerRow = newWidth * bytesPerPixel
+    guard let colorSpace = image.colorSpace else { return nil }
+    guard let context = CGContext(
+        data: nil,
+        width: newWidth,
+        height: newHeight,
+        bitsPerComponent: bitsPerComponent,
+        bytesPerRow: bytesPerRow,
+        space: colorSpace,
+        bitmapInfo: image.bitmapInfo.rawValue)
+    else { return nil }
+    // draw image to context (resizing it)
+    context.interpolationQuality = .default
+    context.draw(
+        image,
+        in: CGRect(
+            x: 0,
+            y: 0,
+            width: newWidth,
+            height: newHeight))
+    // extract resulting image from context
+    return context.makeImage()
+}
+
 struct CapturedScreenArea {
-    let buffer: [UInt8]
+    let buffer: Data
     let width: Int
     let height: Int
     let bitsPerPixel: Int
     let bytesPerPixel: Int
-
-    func asDictionary() -> [String: Any] {
-        [
-            "buffer": buffer,
-            "width": width,
-            "height": height,
-            "bitsPerPixel": bitsPerPixel,
-            "bytesPerPixel": bytesPerPixel
-        ]
-    }
 }
 
 func captureScreenArea(
@@ -25,53 +47,42 @@ func captureScreenArea(
     width: Int,
     height: Int
 ) -> CapturedScreenArea? {
-
-    let displayID = CGMainDisplayID()
     let rect = CGRect(
-        x: CGFloat(x),
-        y: CGFloat(y),
-        width: CGFloat(width),
-        height: CGFloat(height)
-    )
-//    guard let image = CGWindowListCreateImage(
-//        rect,
-//        CGWindowListOption.optionAll,
-//        kCGNullWindowID,
-//        CGWindowImageOption.nominalResolution
-//    ) else {
-//        return nil
-//    }
-    guard let image = CGDisplayCreateImage(displayID, rect: rect) else {
+        x: x,
+        y: y,
+        width: width,
+        height: height)
+
+    guard var image = CGWindowListCreateImage(
+        rect,
+//        CGWindowListOption.optionOnScreenOnly,
+        CGWindowListOption.optionAll,
+        kCGNullWindowID,
+        CGWindowImageOption.bestResolution)
+    else {
         return nil
     }
+
+    let screenPixelRatio = Float(image.width) / Float(width);
+    if screenPixelRatio != 1,
+       let resizedImage = resize(image: image, ratio: screenPixelRatio) {
+        image = resizedImage
+    }
+
     guard let imageData = image.dataProvider?.data else {
         return nil
     }
     guard let imageDataPtr = CFDataGetBytePtr(imageData) else {
         return nil
     }
-    let buffer = UnsafeBufferPointer<UInt8>(
-        start: imageDataPtr,
-        count: CFDataGetLength(imageData)
-    )
-    // buffer is an array of bytes, where each 4 bytes represents a color with channels BGRA
-    // transform the buffer into an array of colors with channels RGBA
-    let correctedBuffer = buffer.enumerated().map { (index, byte) -> UInt8 in
-        if index % 4 == 0 {
-            return buffer[index + 2]
-        } else if index % 4 == 2 {
-            return buffer[index - 2]
-        } else {
-            return byte
-        }
-    }
     return CapturedScreenArea(
-        buffer: correctedBuffer,
-        width: width,
-        height: height,
+        buffer: Data(
+            bytes: imageDataPtr,
+            count: CFDataGetLength(imageData)),
+        width: image.width,
+        height: image.height,
         bitsPerPixel: image.bitsPerPixel,
-        bytesPerPixel: image.bitsPerPixel / 8
-    )
+        bytesPerPixel: image.bitsPerPixel / 8)
 }
 
 let invalidArgumentsError = FlutterError(
@@ -84,8 +95,7 @@ public class FlutterScreenCapturePlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(
             name: "flutter_screen_capture",
-            binaryMessenger: registrar.messenger
-        )
+            binaryMessenger: registrar.messenger)
         let instance = FlutterScreenCapturePlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
@@ -113,13 +123,21 @@ public class FlutterScreenCapturePlugin: NSObject, FlutterPlugin {
                 result(invalidArgumentsError)
                 return
             }
-            let capturedScreenArea = captureScreenArea(
+            if let capturedScreenArea = captureScreenArea(
                 x: x,
                 y: y,
                 width: width,
-                height: height
-            )
-            result(capturedScreenArea?.asDictionary())
+                height: height) {
+                result([
+                    "buffer": capturedScreenArea.buffer,
+                    "width": capturedScreenArea.width,
+                    "height": capturedScreenArea.height,
+                    "bitsPerPixel": capturedScreenArea.bitsPerPixel,
+                    "bytesPerPixel": capturedScreenArea.bytesPerPixel
+                ])
+            } else {
+                result(nil)
+            }
         default:
             result(FlutterMethodNotImplemented)
         }

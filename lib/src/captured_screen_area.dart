@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/widgets.dart';
@@ -46,7 +47,13 @@ class CapturedScreenArea {
       width,
       height,
       buffer,
+      format: imageFormat,
     );
+  }
+
+  image_lib.Format get imageFormat {
+    if (Platform.isMacOS) return image_lib.Format.bgra;
+    return image_lib.Format.rgba;
   }
 
   Uint8List toPngImage() {

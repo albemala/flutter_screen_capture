@@ -36,11 +36,7 @@ class ScreenCapture {
     }
 
     final area = CapturedScreenArea.fromJson(result);
-    if (correctedRect == rect) {
-      return area;
-    } else {
-      return _sanitizeCapturedArea(area, rect, correctedRect);
-    }
+    return _sanitizeCapturedArea(area, rect, correctedRect);
   }
 
   /// Captures the color of a pixel on the screen.
@@ -63,33 +59,43 @@ Future<CapturedScreenArea> _sanitizeCapturedArea(
   Rect originalRect,
   Rect correctedRect,
 ) async {
-  // The intersection area (between the primary display area
-  // and the requested area) is smaller than the requested area.
-  // Usually this happens when requesting an area close to the screen border.
-  // We need to fill the captured area with black pixels,
-  // where the pixels are outside the requested area.
+  var correctedArea = area;
 
-  // Create a black image of the size of the requested area
-  final emptyImage = image_lib.Image.fromBytes(
-    originalRect.width.toInt(),
-    originalRect.height.toInt(),
-    List<int>.filled(
-      originalRect.width.toInt() * originalRect.height.toInt() * 4,
-      0,
-    ),
-  );
-  // Draw the captured image on top of the black image
-  final correctedImage = image_lib.drawImage(
-    emptyImage,
-    area.toImage(),
-    dstX: (correctedRect.left - originalRect.left).toInt(),
-    dstY: (correctedRect.top - originalRect.top).toInt(),
-    blend: false,
-  );
-  // Return the captured area with corrected image and size
-  return area.copyWith(
-    buffer: correctedImage.getBytes(),
-    width: originalRect.width.toInt(),
-    height: originalRect.height.toInt(),
-  );
+  if (correctedRect != originalRect) {
+    // The intersection area (between the primary display area
+    // and the requested area) is smaller than the requested area.
+    // Usually this happens when requesting an area close to the screen border.
+    // We need to fill the captured area with black pixels,
+    // where the pixels are outside the requested area.
+
+    final originalWidth = originalRect.width.toInt();
+    final originalHeight = originalRect.height.toInt();
+    // Create a black image of the size of the requested area
+    final emptyImage = image_lib.Image.fromBytes(
+      originalWidth,
+      originalHeight,
+      List<int>.filled(
+        originalWidth * originalHeight * 4,
+        0,
+      ),
+    );
+    // Draw the captured image on top of the black image
+    final correctedImage = image_lib.drawImage(
+      emptyImage,
+      area.toImage(),
+      dstX: (correctedRect.left - originalRect.left).toInt(),
+      dstY: (correctedRect.top - originalRect.top).toInt(),
+      blend: false,
+    );
+    // Update the captured area with the new image
+    correctedArea = correctedArea.copyWith(
+      buffer: correctedImage.getBytes(
+        format: correctedArea.imageFormat,
+      ),
+      width: originalWidth,
+      height: originalHeight,
+    );
+  }
+
+  return correctedArea;
 }
