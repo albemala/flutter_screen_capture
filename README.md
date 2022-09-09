@@ -2,7 +2,7 @@
 
 # flutter_screen_capture
 
-A desktop plugin to capture a specific area of the screen.
+A plugin to capture the entire screen or part of it on desktop platforms.
 
 |             | macOS | Windows | Linux |
 |:------------|:------|:--------|:------|

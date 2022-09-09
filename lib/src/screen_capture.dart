@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_screen_capture/src/captured_screen_area.dart';
 import 'package:image/image.dart' as image_lib;
