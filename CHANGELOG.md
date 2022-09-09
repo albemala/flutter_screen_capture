@@ -1,3 +1,7 @@
+## 1.0.2
+
+- Removed homepage link from pubspec file
+
 ## 1.0.1
 
 - Fixed warnings
