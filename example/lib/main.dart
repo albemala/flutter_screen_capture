@@ -92,7 +92,8 @@ class _MyAppState extends State<MyApp> {
                 const SizedBox(height: 24),
                 Row(
                   children: [
-                    if (_screenArea != null) CapturedScreenAreaView(area: _screenArea!),
+                    if (_screenArea != null)
+                      CapturedScreenAreaView(area: _screenArea!),
                     const SizedBox(width: 24),
                     const Text('Press A to capture screen at cursor position'),
                   ],
@@ -105,7 +106,8 @@ class _MyAppState extends State<MyApp> {
                 const SizedBox(height: 24),
                 const Text('Press F to capture the entire screen'),
                 const SizedBox(height: 24),
-                if (_fullScreenArea != null) CapturedScreenAreaView(area: _fullScreenArea!),
+                if (_fullScreenArea != null)
+                  CapturedScreenAreaView(area: _fullScreenArea!),
               ],
             ),
           ),
@@ -115,7 +117,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _captureScreenPixel() async {
-    final cursorScreenPoint = await ScreenRetriever.instance.getCursorScreenPoint();
+    final cursorScreenPoint =
+        await ScreenRetriever.instance.getCursorScreenPoint();
     final color = await _plugin.captureScreenColor(
       cursorScreenPoint.dx,
       cursorScreenPoint.dy,
@@ -126,7 +129,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _captureScreenArea() async {
-    final cursorScreenPoint = await ScreenRetriever.instance.getCursorScreenPoint();
+    final cursorScreenPoint =
+        await ScreenRetriever.instance.getCursorScreenPoint();
     final rect = Rect.fromCircle(center: cursorScreenPoint, radius: 72 / 2);
     final area = await _plugin.captureScreenArea(rect);
     setState(() {

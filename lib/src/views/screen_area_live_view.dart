@@ -22,7 +22,8 @@ class ScreenAreaLiveView extends StatefulWidget {
   _ScreenAreaLiveViewState createState() => _ScreenAreaLiveViewState();
 }
 
-class _ScreenAreaLiveViewState extends State<ScreenAreaLiveView> with SingleTickerProviderStateMixin {
+class _ScreenAreaLiveViewState extends State<ScreenAreaLiveView>
+    with SingleTickerProviderStateMixin {
   final _plugin = ScreenCapture();
   CapturedScreenArea? _area;
   late Ticker _ticker;
@@ -31,7 +32,8 @@ class _ScreenAreaLiveViewState extends State<ScreenAreaLiveView> with SingleTick
   void initState() {
     super.initState();
     _ticker = createTicker((duration) async {
-      final cursorScreenPoint = await ScreenRetriever.instance.getCursorScreenPoint();
+      final cursorScreenPoint =
+          await ScreenRetriever.instance.getCursorScreenPoint();
       final rect = Rect.fromCircle(
         center: cursorScreenPoint,
         radius: widget.areaSize / 2,

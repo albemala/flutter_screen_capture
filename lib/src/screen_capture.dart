@@ -12,7 +12,12 @@ class ScreenCapture {
   Future<CapturedScreenArea?> captureEntireScreen() async {
     final primaryDisplay = await ScreenRetriever.instance.getPrimaryDisplay();
     return captureScreenArea(
-      Rect.fromLTWH(0, 0, primaryDisplay.size.width, primaryDisplay.size.height),
+      Rect.fromLTWH(
+        0,
+        0,
+        primaryDisplay.size.width,
+        primaryDisplay.size.height,
+      ),
     );
   }
 

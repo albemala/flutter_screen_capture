@@ -17,7 +17,8 @@ class ScreenColorLiveView extends StatefulWidget {
   _ScreenColorLiveViewState createState() => _ScreenColorLiveViewState();
 }
 
-class _ScreenColorLiveViewState extends State<ScreenColorLiveView> with SingleTickerProviderStateMixin {
+class _ScreenColorLiveViewState extends State<ScreenColorLiveView>
+    with SingleTickerProviderStateMixin {
   final _plugin = ScreenCapture();
   Color _color = const Color(0xFF000000);
   late Ticker _ticker;
@@ -26,7 +27,8 @@ class _ScreenColorLiveViewState extends State<ScreenColorLiveView> with SingleTi
   void initState() {
     super.initState();
     _ticker = createTicker((duration) async {
-      final cursorScreenPoint = await ScreenRetriever.instance.getCursorScreenPoint();
+      final cursorScreenPoint =
+          await ScreenRetriever.instance.getCursorScreenPoint();
       final color = await _plugin.captureScreenColor(
         cursorScreenPoint.dx,
         cursorScreenPoint.dy,
