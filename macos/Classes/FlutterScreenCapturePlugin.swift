@@ -7,8 +7,8 @@ func resize(
 ) -> CGImage? {
     let newWidth = Int(Float(image.width) / ratio)
     let newHeight = Int(Float(image.height) / ratio)
-    let bitsPerComponent = image.bitsPerComponent // 8
-    let bytesPerPixel = image.bitsPerPixel / bitsPerComponent
+    let bitsPerComponent = image.bitsPerComponent // usually 8
+    let bytesPerPixel = image.bitsPerPixel / bitsPerComponent // usually 4
     let bytesPerRow = newWidth * bytesPerPixel
     guard let colorSpace = image.colorSpace else { return nil }
     guard let context = CGContext(
@@ -63,9 +63,9 @@ func captureScreenArea(
         return nil
     }
 
+    // For example on retina displays, this value could be 2.0 or 3.0
     let screenPixelRatio = Float(image.width) / Float(width);
-    if screenPixelRatio != 1,
-       let resizedImage = resize(image: image, ratio: screenPixelRatio) {
+    if let resizedImage = resize(image: image, ratio: screenPixelRatio) {
         image = resizedImage
     }
 
