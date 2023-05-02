@@ -23,7 +23,10 @@ class ScreenCapture {
   Future<CapturedScreenArea?> captureScreenArea(
     Rect rect,
   ) async {
+    if (rect.isEmpty) return null;
+
     final correctedRect = await _sanitizeRect(rect);
+    if (correctedRect.isEmpty) return null;
 
     final result = await _methodChannel.invokeMethod<Map<Object?, Object?>>(
       'captureScreenArea',
