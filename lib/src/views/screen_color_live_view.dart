@@ -34,6 +34,8 @@ class _ScreenColorLiveViewState extends State<ScreenColorLiveView>
         cursorScreenPoint.dy,
       );
       if (color == null) return;
+
+      if (!mounted) return;
       setState(() {
         _color = color;
       });

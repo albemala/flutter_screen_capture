@@ -37,9 +37,7 @@ class ScreenCapture {
         'height': correctedRect.height.toInt(),
       },
     );
-    if (result == null) {
-      return null;
-    }
+    if (result == null) return null;
 
     final area = CapturedScreenArea.fromJson(result);
     return _sanitizeCapturedArea(area, rect, correctedRect);
