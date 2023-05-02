@@ -1,5 +1,3 @@
-library flutter_screen_capture;
-
 export 'src/captured_screen_area.dart';
 export 'src/screen_capture.dart';
 export 'src/views/captured_screen_area_view.dart';
