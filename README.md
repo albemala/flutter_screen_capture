@@ -1,6 +1,6 @@
-[![Pub](https://img.shields.io/pub/v/flutter_screen_capture)](https://pub.dev/packages/flutter_screen_capture)
-
 # flutter_screen_capture
+
+[![Pub](https://img.shields.io/pub/v/flutter_screen_capture)](https://pub.dev/packages/flutter_screen_capture)
 
 A plugin to capture the entire screen or part of it on desktop platforms.
 
