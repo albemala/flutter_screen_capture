@@ -8,7 +8,18 @@
 GdkPixbuf* CaptureScreenArea(int64_t x, int64_t y, int64_t width, int64_t height)
 {
     // TODO
-    return nullptr;
+    // The passed width and height args, contains the resolution of Primary monitor
+    // If user wants to capture the whole display, including the secondary monitors,
+    // width and height can be calculated using
+
+    // gdk_window_get_width(window)
+    // gdk_window_get_height(window)
+    GdkPixbuf* screenshot = nullptr;
+    GdkWindow* window = gdk_get_default_root_window();
+        screenshot =
+                gdk_pixbuf_get_from_window(window, x, y, width,
+                                           height);
+    return screenshot;
 }
 
 struct _FlutterScreenCapturePlugin {
