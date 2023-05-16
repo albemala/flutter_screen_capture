@@ -53,7 +53,6 @@ class CapturedScreenArea {
 
   image_lib.Format get imageFormat {
     if (Platform.isMacOS) return image_lib.Format.bgra;
-    if (Platform.isLinux) return image_lib.Format.rgb;
     return image_lib.Format.rgba;
   }
 
