@@ -11,14 +11,14 @@ dependencies:
   flutter:
     sdk: flutter
 
-  image: ^3.2.2
-  screen_retriever: ^0.1.6
+  image: ^4.1.4
+  screen_retriever: ^0.1.9
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  very_good_analysis: ^4.0.0+1
+  very_good_analysis: ^5.1.0
 
 flutter:
   plugin:

@@ -76,25 +76,27 @@ Future<CapturedScreenArea> _sanitizeCapturedArea(
     final originalHeight = originalRect.height.toInt();
     // Create a black image of the size of the requested area
     final emptyImage = image_lib.Image.fromBytes(
-      originalWidth,
-      originalHeight,
-      List<int>.filled(
-        originalWidth * originalHeight * 4,
-        0,
-      ),
+      width: originalWidth,
+      height: originalHeight,
+      bytes: Uint8List.fromList(
+        List<int>.filled(
+          originalWidth * originalHeight * 4,
+          0,
+        ),
+      ).buffer,
     );
     // Draw the captured image on top of the black image
-    final correctedImage = image_lib.drawImage(
+    final correctedImage = image_lib.compositeImage(
       emptyImage,
       area.toImage(),
       dstX: (correctedRect.left - originalRect.left).toInt(),
       dstY: (correctedRect.top - originalRect.top).toInt(),
-      blend: false,
+      blend: image_lib.BlendMode.direct,
     );
     // Update the captured area with the new image
     correctedArea = correctedArea.copyWith(
       buffer: correctedImage.getBytes(
-        format: correctedArea.imageFormat,
+        order: correctedArea.channelOrder,
       ),
       width: originalWidth,
       height: originalHeight,

@@ -44,16 +44,17 @@ class CapturedScreenArea {
 
   image_lib.Image toImage() {
     return image_lib.Image.fromBytes(
-      width,
-      height,
-      buffer,
-      format: imageFormat,
+      width: width,
+      height: height,
+      bytes: Uint8List.fromList(buffer).buffer,
+      order: channelOrder,
+      // format: imageFormat,
     );
   }
 
-  image_lib.Format get imageFormat {
-    if (Platform.isMacOS) return image_lib.Format.bgra;
-    return image_lib.Format.rgba;
+  image_lib.ChannelOrder get channelOrder {
+    if (Platform.isMacOS) return image_lib.ChannelOrder.bgra;
+    return image_lib.ChannelOrder.rgba;
   }
 
   Uint8List toPngImage() {
