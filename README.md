@@ -8,8 +8,6 @@ A plugin to capture the entire screen or part of it on desktop platforms.
 |:------------|:------|:--------|:------|
 | **Support** | ✅     | ✅       | ❌     |
 
-
-
 ## Usage
 
 ### Capture the entire screen
