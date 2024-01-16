@@ -6,8 +6,8 @@ class CapturedScreenAreaView extends StatelessWidget {
   final CapturedScreenArea area;
 
   const CapturedScreenAreaView({
-    super.key,
     required this.area,
+    super.key,
   });
 
   @override

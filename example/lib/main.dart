@@ -7,7 +7,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -46,11 +46,11 @@ class _MyAppState extends State<MyApp> {
               children: [
                 Text(
                   'Screen pixel color',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 24),
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     SizedBox(
                       width: 64,
                       height: 64,
@@ -75,11 +75,11 @@ class _MyAppState extends State<MyApp> {
                 const SizedBox(height: 64),
                 Text(
                   'Screen area',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 24),
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     SizedBox(
                       width: 72,
                       height: 72,
@@ -101,7 +101,7 @@ class _MyAppState extends State<MyApp> {
                 const SizedBox(height: 64),
                 Text(
                   'Full screen',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 24),
                 const Text('Press F to capture the entire screen'),

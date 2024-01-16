@@ -14,7 +14,7 @@ class ScreenColorLiveView extends StatefulWidget {
   });
 
   @override
-  _ScreenColorLiveViewState createState() => _ScreenColorLiveViewState();
+  State<ScreenColorLiveView> createState() => _ScreenColorLiveViewState();
 }
 
 class _ScreenColorLiveViewState extends State<ScreenColorLiveView>

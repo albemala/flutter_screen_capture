@@ -24,11 +24,13 @@ class CapturedScreenArea {
 
   factory CapturedScreenArea.fromJson(Map<Object?, Object?> json) {
     return CapturedScreenArea(
-      buffer: Uint8List.fromList((json['buffer'] as List<Object?>).cast<int>()),
-      width: json['width'] as int,
-      height: json['height'] as int,
-      bitsPerPixel: json['bitsPerPixel'] as int,
-      bytesPerPixel: json['bytesPerPixel'] as int,
+      buffer: Uint8List.fromList(
+        (json['buffer'] as List<Object?>? ?? []).cast<int>(),
+      ),
+      width: json['width'] as int? ?? 0,
+      height: json['height'] as int? ?? 0,
+      bitsPerPixel: json['bitsPerPixel'] as int? ?? 0,
+      bytesPerPixel: json['bytesPerPixel'] as int? ?? 0,
     );
   }
 

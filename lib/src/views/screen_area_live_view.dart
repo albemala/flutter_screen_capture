@@ -14,12 +14,12 @@ class ScreenAreaLiveView extends StatefulWidget {
   final double areaSize;
 
   const ScreenAreaLiveView({
-    super.key,
     required this.areaSize,
+    super.key,
   }) : assert(areaSize > 0, 'areaSize must be greater than 0');
 
   @override
-  _ScreenAreaLiveViewState createState() => _ScreenAreaLiveViewState();
+  State<ScreenAreaLiveView> createState() => _ScreenAreaLiveViewState();
 }
 
 class _ScreenAreaLiveViewState extends State<ScreenAreaLiveView>
