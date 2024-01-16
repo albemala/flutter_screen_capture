@@ -1,3 +1,9 @@
+## 1.2.0
+
+- Targeting Dart 3.2 and Flutter 3.16
+- Upgraded dependencies
+- Fixed linter issues
+
 ## 1.1.0
 
 - Targeting Dart 2.19 and Flutter 3.7
