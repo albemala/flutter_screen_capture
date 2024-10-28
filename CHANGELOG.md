@@ -1,3 +1,8 @@
+## 1.2.1
+
+- Upgraded dependencies
+- Updated example macOS config
+
 ## 1.2.0
 
 - Targeting Dart 3.2 and Flutter 3.16
