@@ -6,9 +6,9 @@ import FlutterMacOS
 import Foundation
 
 import flutter_screen_capture
-import screen_retriever
+import screen_retriever_macos
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FlutterScreenCapturePlugin.register(with: registry.registrar(forPlugin: "FlutterScreenCapturePlugin"))
-  ScreenRetrieverPlugin.register(with: registry.registrar(forPlugin: "ScreenRetrieverPlugin"))
+  ScreenRetrieverMacosPlugin.register(with: registry.registrar(forPlugin: "ScreenRetrieverMacosPlugin"))
 }
