@@ -1,3 +1,7 @@
+## 1.2.2
+
+- Updated readme
+
 ## 1.2.1
 
 - Upgraded dependencies
