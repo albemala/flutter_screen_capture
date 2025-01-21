@@ -1,6 +1,6 @@
 name: flutter_screen_capture
 description: A plugin to capture the entire screen or part of it on desktop platforms.
-version: 1.2.2
+version: 1.2.3
 repository: https://github.com/albemala/flutter_screen_capture
 
 funding:
