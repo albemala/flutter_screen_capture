@@ -73,7 +73,8 @@ Feel free to submit a pull request to add your project to this list.
 
 ## Support this project
 
-[Buy Me A Coffee](https://www.buymeacoffee.com/albemala)
+- [GitHub Sponsor](https://github.com/sponsors/albemala)
+- [Buy Me A Coffee](https://www.buymeacoffee.com/albemala)
 
 ## Other projects
 
