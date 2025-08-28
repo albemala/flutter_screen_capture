@@ -78,12 +78,13 @@ Future<CapturedScreenArea> _sanitizeCapturedArea(
     final emptyImage = image_lib.Image.fromBytes(
       width: originalWidth,
       height: originalHeight,
-      bytes: Uint8List.fromList(
-        List<int>.filled(
-          originalWidth * originalHeight * 4,
-          0,
-        ),
-      ).buffer,
+      bytes:
+          Uint8List.fromList(
+            List<int>.filled(
+              originalWidth * originalHeight * 4,
+              0,
+            ),
+          ).buffer,
     );
     // Draw the captured image on top of the black image
     final correctedImage = image_lib.compositeImage(

@@ -1,3 +1,11 @@
+## 2.0.0
+
+- Updated example code
+- Refactored macOS Swift plugin implementation
+- Updated linter rules
+- Upgraded dependencies
+- Targeting Dart 3.7 and Flutter 3.29
+
 ## 1.2.3
 
 - Updated funding information
