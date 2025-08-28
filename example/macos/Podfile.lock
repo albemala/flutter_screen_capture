@@ -19,10 +19,10 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/screen_retriever_macos/macos
 
 SPEC CHECKSUMS:
-  flutter_screen_capture: cc0f1c99c1e984e1a91df15c13a3ffac53d80288
+  flutter_screen_capture: 74fb9192a80e1f540113c825b4ab87eba10e7d5f
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  screen_retriever_macos: 776e0fa5d42c6163d2bf772d22478df4b302b161
+  screen_retriever_macos: 452e51764a9e1cdb74b3c541238795849f21557f
 
 PODFILE CHECKSUM: 353c8bcc5d5b0994e508d035b5431cfe18c1dea7
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.16.2
