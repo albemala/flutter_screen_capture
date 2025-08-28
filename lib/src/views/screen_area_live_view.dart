@@ -39,9 +39,11 @@ class _ScreenAreaLiveViewState extends State<ScreenAreaLiveView>
         radius: widget.areaSize / 2,
       );
       final area = await _plugin.captureScreenArea(rect);
-      setState(() {
-        _area = area;
-      });
+      if (mounted) {
+        setState(() {
+          _area = area;
+        });
+      }
     });
     _ticker.start();
   }
