@@ -1,3 +1,7 @@
+## 2.0.1
+
+- fixed setState() called after dispose()
+
 ## 2.0.0
 
 - Updated example code
