@@ -21,19 +21,16 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return RawKeyboardListener(
+    return KeyboardListener(
       focusNode: FocusNode(),
-      onKey: (key) async {
+      onKeyEvent: (key) async {
         switch (key.character) {
           case 'c': // capture screen pixel
             await _captureScreenPixel();
-            break;
           case 'a': // capture screen area
             await _captureScreenArea();
-            break;
           case 'f': // capture full screen
             await _captureFullScreen();
-            break;
         }
       },
       child: MaterialApp(
