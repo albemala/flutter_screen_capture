@@ -1,3 +1,7 @@
+## 2.0.2
+
+- Updated project links in README (portfolio v5 migration)
+
 ## 2.0.1
 
 - fixed setState() called after dispose()
